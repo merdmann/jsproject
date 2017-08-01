@@ -1,0 +1,25 @@
+{
+  "name": "jsproject",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fs-jetpack": "^1.1.0",
+    "gulp-batch": "^1.0.5",
+    "gulp-less": "^3.3.2",
+    "gulp-plumber": "^1.1.0",
+    "gulp-watch": "^4.3.11",
+    "jslint": "^0.11.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.3.0",
+    "eslint-config-defaults": "^9.0.0",
+    "gulp": "^3.9.1",
+    "mocha": "^3.4.2"
+  }
+}
