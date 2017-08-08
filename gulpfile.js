@@ -15,8 +15,8 @@ const destDir = jetpack.cwd('./app');
 
 gulp.task('bundle', () => {
   return Promise.all([
-    bundle(srcDir.path("./src/**/*.js"), destDir.path("./app/**/*.js")),
-    bundle(srcDir.path('app.js'), destDir.path('app.js')),
+    bundle(srcDir.path("./js/lib.js"), destDir.path("./app/js/lib.js"))
+    //bundle(srcDir.path('./js/app.js'), destDir.path('./js/app.js')),
   ]);
 });
 
@@ -37,7 +37,7 @@ gulp.task('watch', () => {
     };
   };
 
-  watch('./src/**/*.js', batch((events, done) => {
+  watch('./src/js/*.js', batch((events, done) => {
     gulp.start('bundle', beepOnError(done));
   }));
   watch('./src/**/*.less', batch((events, done) => {
@@ -45,4 +45,4 @@ gulp.task('watch', () => {
   }));
 });
 
-gulp.task('default', ['bundle', 'less', 'environment']);
+gulp.task('default', ['bundle', 'less' ]);

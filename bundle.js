@@ -8,15 +8,13 @@ const nodeBuiltInModules = ['assert', 'buffer', 'child_process', 'cluster',
   'querystring', 'readline', 'repl', 'stream', 'string_decoder', 'timers',
   'tls', 'tty', 'url', 'util', 'v8', 'vm', 'zlib'];
 
-const electronBuiltInModules = ['electron'];
 
 const generateExternalModulesList = () => {
   const appManifest = jetpack.read('./package.json', 'json');
   return [].concat(
     nodeBuiltInModules,
-    electronBuiltInModules,
     Object.keys(appManifest.dependencies),
-    Object.keys(appManifest.devDependencies)
+    Object.keys(appManifest.devDependencies)generate();
   );
 };
 

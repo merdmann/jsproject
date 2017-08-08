@@ -1,4 +1,4 @@
-require("../../app/lib");
+require("../../../app/lib");
 
 const chai = require("Chai");
 const expect = chai.expect;
