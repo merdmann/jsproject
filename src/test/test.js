@@ -1,14 +1,17 @@
-require("../../../app/lib");
+/**
+ * 
+ */
+require('../../../app/lib');
 
-const chai = require("Chai");
+const chai = require('Chai');
 const expect = chai.expect;
 
-describe("undefined object", function () {
-    it( "should return true", function () {
-        var undefined;
-        var defined = "Hallo";
+describe('undefined object', function() {
+    it( 'should return true', function() {
+        let undefined;
+        let defined = 'Hallo';
 
-        var result = is_undefined(undefined);
+        let result = is_undefined(undefined);
 
         expect(result).to.equal(true);
     });
