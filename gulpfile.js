@@ -1,4 +1,4 @@
-"use strict"
+'use strict'
 
 const gulp = require('gulp');
 const less = require('gulp-less');
@@ -15,7 +15,7 @@ const destDir = jetpack.cwd('./app');
 
 gulp.task('bundle', () => {
   return Promise.all([
-    bundle(srcDir.path("./js/lib.js"), destDir.path("./app/js/lib.js"))
+    bundle(srcDir.path("./js/lib.js"), destDir.path('./app/js/lib.js'))
     //bundle(srcDir.path('./js/app.js'), destDir.path('./js/app.js')),
   ]);
 });
