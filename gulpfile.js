@@ -1,29 +1,23 @@
-var gulp = require('gulp');
-var runSequence = require('run-sequence');
-var conventionalChangelog = require('gulp-conventional-changelog');
-var conventionalGithubReleaser = require('conventional-github-releaser');
-var bump = require('gulp-bump');
-var gutil = require('gulp-util');
-var git = require('gulp-git');
-var fs = require('fs');
+var gulp = require("gulp");
+var runSequence = require("run-sequence");
+var conventionalChangelog = require("gulp-conventional-changelog");
+var conventionalGithubReleaser = require("conventional-github-releaser");
+var bump = require("gulp-bump");
+var gutil = require("gulp-util");
+var git = require("gulp-git");
+var fs = require("fs");
 
-gulp.task('changelog', function () {
-  return gulp.src('CHANGELOG.md', {
-    buffer: false
-  })
-    .pipe(conventionalChangelog({
-      preset: 'angular' // Or to any other commit message convention you use.
-    }))
-    .pipe(gulp.dest('./'));
+gulp.task("changelog", function () {
+    return gulp.src("CHANGELOG.md", { buffer: false }).pipe(conventionalChangelog({
+    preset: "angular" })).pipe(gulp.dest("./"));
 });
 
-gulp.task('github-release', function(done) {
-  conventionalGithubReleaser({
-    type: "oauth",
-    token: '0126af95c0e2d9b0a7c78738c4c00a860b04acc8' // change this to your own GitHub token or use an environment variable
-  }, {
-    preset: 'angular' // Or to any other commit message convention you use.
-  }, done);
+gulp.task("github-release", function(done) {
+    conventionalGithubReleaser({
+      type:   "oauth",
+      token:  "0126af95c0e2d9b0a7c78738c4c00a860b04acc8"}, {
+      preset: "angular" // Or to any other commit message convention you use.
+  },  done);
 });
 
 gulp.task('bump-version', function () {
