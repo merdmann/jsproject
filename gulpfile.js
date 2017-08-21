@@ -1,48 +1,81 @@
-'use strict'
+var gulp = require('gulp');
+var runSequence = require('run-sequence');
+var conventionalChangelog = require('gulp-conventional-changelog');
+var conventionalGithubReleaser = require('conventional-github-releaser');
+var bump = require('gulp-bump');
+var gutil = require('gulp-util');
+var git = require('gulp-git');
+var fs = require('fs');
 
-const gulp = require('gulp');
-const less = require('gulp-less');
-const watch = require('gulp-watch');
-const batch = require('gulp-batch');
-const plumber = require('gulp-plumber');
-const jetpack = require('fs-jetpack');
-const bundle = require('./bundle');
-const utils = require('./utils/utils');
-
-const projectDir = jetpack;
-const srcDir = jetpack.cwd('./src');
-const destDir = jetpack.cwd('./app');
-
-gulp.task('bundle', () => {
-  return Promise.all([
-    bundle(srcDir.path("./js/lib.js"), destDir.path('./app/js/lib.js'))
-    //bundle(srcDir.path('./js/app.js'), destDir.path('./js/app.js')),
-  ]);
+gulp.task('changelog', function () {
+  return gulp.src('CHANGELOG.md', {
+    buffer: false
+  })
+    .pipe(conventionalChangelog({
+      preset: 'angular' // Or to any other commit message convention you use.
+    }))
+    .pipe(gulp.dest('./'));
 });
 
-gulp.task('less', () => {
-  return gulp.src(srcDir.path('stylesheets/main.less'))
-  .pipe(plumber())
-  .pipe(less())
-  .pipe(gulp.dest(destDir.path('stylesheets')));
+gulp.task('github-release', function(done) {
+  conventionalGithubReleaser({
+    type: "oauth",
+    token: '0126af95c0e2d9b0a7c78738c4c00a860b04acc8' // change this to your own GitHub token or use an environment variable
+  }, {
+    preset: 'angular' // Or to any other commit message convention you use.
+  }, done);
 });
 
-gulp.task('watch', () => {
-  const beepOnError = (done) => {
-    return (err) => {
-      if (err) {
-        utils.beepSound();
-      }
-      done(err);
-    };
+gulp.task('bump-version', function () {
+// We hardcode the version change type to 'patch' but it may be a good idea to
+// use minimist (https://www.npmjs.com/package/minimist) to determine with a
+// command argument whether you are doing a 'major', 'minor' or a 'patch' change.
+  return gulp.src(['./bower.json', './package.json'])
+    .pipe(bump({type: "patch"}).on('error', gutil.log))
+    .pipe(gulp.dest('./'));
+});
+
+gulp.task('commit-changes', function () {
+  return gulp.src('.')
+    .pipe(git.add())
+    .pipe(git.commit('[Prerelease] Bumped version number'));
+});
+
+gulp.task('push-changes', function (cb) {
+  git.push('origin', 'master', cb);
+});
+
+gulp.task('create-new-tag', function (cb) {
+  var version = getPackageJsonVersion();
+  git.tag(version, 'Created Tag for version: ' + version, function (error) {
+    if (error) {
+      return cb(error);
+    }
+    git.push('origin', 'master', {args: '--tags'}, cb);
+  });
+
+  function getPackageJsonVersion () {
+    // We parse the json file instead of using require because require caches
+    // multiple calls so the version number won't be updated
+    return JSON.parse(fs.readFileSync('./package.json', 'utf8')).version;
   };
-
-  watch('./src/js/*.js', batch((events, done) => {
-    gulp.start('bundle', beepOnError(done));
-  }));
-  watch('./src/**/*.less', batch((events, done) => {
-    gulp.start('less', beepOnError(done));
-  }));
 });
 
-gulp.task('default', ['bundle', 'less' ]);
+gulp.task('release', function (callback) {
+  runSequence(
+    'bump-version',
+    'changelog',
+    'commit-changes',
+    'push-changes',
+    'create-new-tag',
+    'github-release',
+    function (error) {
+      if (error) {
+        console.log(error.message);
+      } else {
+        console.log('RELEASE FINISHED SUCCESSFULLY');
+      }
+      callback(error);
+    });
+});
+
