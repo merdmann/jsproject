@@ -13,11 +13,10 @@ gulp.task("changelog", function () {
 });
 
 gulp.task("github-release", function(done) {
-    conventionalGithubReleaser({
-      type:   "oauth",
-      token:  "ca24a3418c707fab1e7b0a1b4f3eed56c4320b3a"}, {
-      preset: "angular" // Or to any other commit message convention you use.
-  },  done);
+    conventionalGithubReleaser(
+      { type:   "oauth", token:  "862998e781985ac0e0378c410e53f06ca85f914a"}, 
+      { preset: "angular" },
+      done);
 });
 
 gulp.task("bump-version", function () {
