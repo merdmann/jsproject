@@ -1,3 +1,8 @@
+<a name="1.0.21"></a>
+## [1.0.21](https://github.com/merdmann/jsproject/compare/1.0.20...1.0.21) (2017-08-27)
+
+
+
 <a name="1.0.20"></a>
 ## [1.0.20](https://github.com/merdmann/jsproject/compare/1.0.19...1.0.20) (2017-08-27)
 

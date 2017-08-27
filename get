@@ -1,1 +1,1 @@
-GET /orgs/merdmann/repos
+GET /repos/:owner/:repo/releases/tags/:tag
