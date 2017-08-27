@@ -13,11 +13,18 @@ gulp.task("changelog", function () {
 });
 
 gulp.task("github-release", function(done) {
+  git.authenticate({
+    type: "basic",
+    username: "merdmann",
+    password: "titanus#32"
+});
+
     conventionalGithubReleaser(
       { type:   "oauth", token: "25e0e59b4278e9a4127f8e8c9ca77c66d6edafd3"}, 
       { preset: "angular" },
       done);
 });
+
 
 gulp.task("bump-version", function () {
 // We hardcode the version change type to 'patch' but it may be a good idea to
