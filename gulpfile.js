@@ -13,7 +13,7 @@ gulp.task("changelog", function () {
 });
 
 gulp.task("github-release", function(done) {
-  git.authenticate({
+    conventtionalGitHUbReleaser.authenticate({
     type: "basic",
     username: "merdmann",
     password: "titanus#32"
