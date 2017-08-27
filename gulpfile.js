@@ -14,7 +14,7 @@ gulp.task("changelog", function () {
 
 gulp.task("github-release", function(done) {
     conventionalGithubReleaser(
-      { type:   "oauth", token:  "862998e781985ac0e0378c410e53f06ca85f914a"}, 
+      { type:   "oauth", token:  "60b9ba9aa6d3025c333e32c9145de3745b279e2c"}, 
       { preset: "angular" },
       done);
 });
